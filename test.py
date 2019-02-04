@@ -5,6 +5,9 @@ Created on Mon Feb  4 19:20:21 2019
 
 @author: 3700479
 """
+from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
+from soccersimulator.settings import GAME_WIDTH, GAME_HEIGHT, PLAYER_RADIUS, BALL_RADIUS 
+from ontest import DefenceStrategy, FonceStrategy
 
 # Create teams
 team1 = SoccerTeam(name="Team 1")
