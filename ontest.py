@@ -25,7 +25,7 @@ class FonceStrategy(Strategy):
             return SoccerAction((s.ball-s.player),None)
         else:
             if id_team == 1: 
-                return SoccerAction((s.ball+ -s.player),(s.goal)-s.player)
+                return SoccerAction((s.ball-s.player),(s.goal)-s.player)
             else: 
                 return SoccerAction((s.ball-s.player),(s.goal)-s.player)
                 

@@ -14,7 +14,7 @@ team1 = SoccerTeam(name="Team 1")
 team2 = SoccerTeam(name="Team 2")
 
 # Add players
-team1.add("FonceStrategy",DefenceStrategy())  # Random strategy
+team1.add("FonceStrategy",FonceStrategy())  # Random strategy
 # =============================================================================
 # team1.add("DefenceStrategy", DefenceStrategy())   # Static strategy
 # =============================================================================
