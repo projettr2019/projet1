@@ -100,22 +100,3 @@ class But():
                 
 
     
-# Create teams
-team1 = SoccerTeam(name="Team 1")
-team2 = SoccerTeam(name="Team 2")
-
-# Add players
-team1.add("FonceStrategy",DefenceStrategy())  # Random strategy
-# =============================================================================
-# team1.add("DefenceStrategy", DefenceStrategy())   # Static strategy
-# =============================================================================
-#team2.add("DefenceStrategy",DefenceStrategy())
-team2.add("FonceStrategy",FonceStrategy())
-# Create a match
-simu = Simulation(team1, team2)
-
-# Simulate and display the match
-show_simu(simu)
-
-# if (state.ball.position).distance(state.player_state(id_team,id_player)) < PLAYER_RADIUS + BALL_RADIUS:
-#while (state.ball.position).distance(state.player_state(id_team,id_player)) > PLAYER_RADIUS + BALL_RADIUS: .
