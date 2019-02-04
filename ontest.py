@@ -7,7 +7,7 @@ Created on Mon Jan 21 17:45:20 2019
 """
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
 from soccersimulator.settings import GAME_WIDTH, GAME_HEIGHT, PLAYER_RADIUS, BALL_RADIUS
-from tools import SuperState, Passe, But
+from tools import SuperState
 
  # id_team is 1 or 2
  # id_player starts at 0
@@ -20,67 +20,97 @@ class FonceStrategy(Strategy):
         # id_team is 1 or 2
         # id_player starts at 0
             #ne pas tirer n'importe quand
-             if state.ball.position.distance(state.player_state(id_team,id_player).position) > PLAYER_RADIUS + BALL_RADIUS:
-                return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),None)
-             else:
-                if id_team == 1: 
-                    return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),(Vector2D(GAME_WIDTH,GAME_HEIGHT/2)-state.player_state(id_team,id_player).position)/100)
-                else: 
-                    return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),(Vector2D(0,GAME_HEIGHT/2)-state.player_state(id_team,id_player).position)/100)
-                
-                
-class FonceStrategy2(Strategy):
-    def __init__(self):
-        Strategy.__init__(self, "Fonce")
-
-    def compute_strategy(self, state, id_team, id_player):
-       
-        #ne pas tirer n'importe quand
         s = SuperState(state,id_team,id_player)
-        if state.ball.position.distance(state.player_state(id_team,id_player).position) > PLAYER_RADIUS + BALL_RADIUS:
-            return SoccerAction((Vector2D(GAME_HEIGHT/2,GAME_WIDTH-100)-state.player_state(id_team,id_player).position),None)
+        if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
+            return SoccerAction((s.ball-s.player),None)
         else:
             if id_team == 1: 
-                return s.But
+                return SoccerAction((s.ball+ -s.player),(s.goal)-s.player)
             else: 
-                return s.But
-
-
+                return SoccerAction((s.ball-s.player),(s.goal)-s.player)
+                
+                
 
         
+"""class Dribleur(Strategy):
+    def __init__(self):
+        Strategy.__init__(self, "drible")
+        
+    def compute_strategy(self, state, id_team, id_player):
+          s = SuperState(state,id_team,id_player)
+          if s.posOpposant-s.player<40:
+             return SoccerAction((Vector2D(0,0)-s.player),None)
+          else:                 
+             return SoccerAction((s.goal-s.player),None)
+             
+ """       
         
 class DefenceStrategy(Strategy):
     def __init__(self):
         Strategy.__init__(self, "defence")
         
     def compute_strategy(self, state, id_team, id_player):
-      #  s = SuperState(state,id_team,id_player)
-        if state.ball.position.distance(state.player_state(id_team,id_player).position) < 20: 
-            if id_team == 1:
-                return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),(Vector2D(GAME_WIDTH,GAME_HEIGHT/2)-state.player_state(id_team,id_player).position)/10)
-            else: 
-                return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),(Vector2D(0,GAME_HEIGHT/2)-state.player_state(id_team,id_player).position)/10)
-        else:   
-            if id_team ==1:
-           #     if state.player_state(id_team,id_player).position != Vector2D(10,GAME_HEIGHT/2):
-           #        return SoccerAction(None,None)
-           #     else:       
-                    return SoccerAction((Vector2D(5,GAME_HEIGHT/2)-state.player_state(id_team,id_player).position),None)
-            else:
-                return SoccerAction((Vector2D(GAME_WIDTH-5,GAME_HEIGHT/2)-state.player_state(id_team,id_player).position),None)
-    
+      s = SuperState(state,id_team,id_player)  
+      if s.ball.distance(s.player) < 30: 
+          if id_team == 1:
+              return SoccerAction(((s.trajballe)-s.player),((s.goal)-s.player))
+      else:   
+          if id_team == 1:
+              return SoccerAction((s.posdef-s.player),None)
+          else:
+              return SoccerAction((s.posdef-s.player),None)
 
-    
+class Passe(Strategy):   
+    def __init__(self):
+        Strategy.__init__(self, "passe")
+         
+
+    def compute_strategy(self, state, id_team, id_player):
+        s = SuperState(state,id_team,id_player)
+        if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
+            return SoccerAction((s.ball-s.player),None)
+        
+        else:
+            if id_player!=0:
+                return SoccerAction((s.ball-s.player),((state.player_state(id_team,id_player-1).position)-state.player_state(id_team,id_player).position))
+            else:
+                return SoccerAction((s.ball-s.player),((state.player_state(id_team,id_player+1).position)-state.player_state(id_team,id_player).position))
+
+
+
+
+#a tester plus tard
+class But():
+    def __init__(self):
+        Strategy.__init__(self, "but")
+         
+
+    def compute_strategy(self, state, id_team, id_player):
+        s = SuperState(state,id_team,id_player)
+        if(state.ball.position.distance(s.goal)<40):
+            if  state.ball.position.distance(state.player_state(id_team,id_player).position) > PLAYER_RADIUS + BALL_RADIUS:
+                if id_team == 1:
+                    return SoccerAction((s.ball-s.player),(s.goal-s.player)/10)
+                else: 
+                    return SoccerAction(((s.ball-state.player_state(id_team,id_player).position),(s.goal)-state.player_state(id_team,id_player).position)/10)
+                
+                
+                
+                
+                
+
     
 # Create teams
 team1 = SoccerTeam(name="Team 1")
 team2 = SoccerTeam(name="Team 2")
 
 # Add players
-team1.add("DefenceStrategy",FonceStrategy2())  # Random strategy
-team1.add("DefenceStrategy", Passe())   # Static strategy
-team2.add("DefenceStrategy",DefenceStrategy())
-team2.add("passe",DefenceStrategy()) 
+team1.add("FonceStrategy",DefenceStrategy())  # Random strategy
+# =============================================================================
+# team1.add("DefenceStrategy", DefenceStrategy())   # Static strategy
+# =============================================================================
+#team2.add("DefenceStrategy",DefenceStrategy())
+team2.add("FonceStrategy",FonceStrategy())
 # Create a match
 simu = Simulation(team1, team2)
 

@@ -15,6 +15,9 @@ class SuperState(object):
         self.id_team = id_team
         self.id_player = id_player
 
+    def __getattr__(self,attr):
+        return getattr(self.state,attr)  
+    
     @property
     def ball(self):
         return self.state.ball.position
@@ -24,43 +27,32 @@ class SuperState(object):
         return self.state.player_state(self.id_team,self.id_player).position
     
     @property
-    def goal1(self):
-        return self.Vector2D(0,GAME_HEIGHT/2)
-    
-    @property
-    def goal2(self):
-        return self.Vector2D(GAME_WIDTH,GAME_HEIGHT/2)
-
-
-
-class Passe(Strategy):   
-    def __init__(self):
-        Strategy.__init__(self, "passe")
-         
-
-    def compute_strategy(self, state, id_team, id_player):
-        s = SuperState(state,id_team,id_player)
-        if state.ball.position.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
-            return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),None)
-        
+    def goal(self):
+        if self.id_team == 2:
+            return Vector2D(0,GAME_HEIGHT/2)
         else:
-            if id_player!=0:
-                return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),((state.player_state(id_team,id_player-1).position)-state.player_state(id_team,id_player).position))
-            else:
-                return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),((state.player_state(id_team,id_player+1).position)-state.player_state(id_team,id_player).position))
+            return Vector2D(GAME_WIDTH,GAME_HEIGHT/2)
+        
+    @property
+    def posdef(self):
+        if self.id_team == 1:
+            return Vector2D(5,GAME_HEIGHT/2)
+        else:
+            return Vector2D(GAME_WIDTH-5,GAME_HEIGHT/2)
+        
+    
+      
+    @property 
+    def posOpponent(self):
+        posOpponent= []
+        for it,ip in self.state.player:
+            if it!=self.id_team:
+                posOpponent.append(self.state.player_state(it,ip).position)
+                
+        return posOpponent 
+        
+    @property
+    def trajballe(self): 
+        return self.state.ball.position + 5*(self.state.ball.vitesse)
 
 
-#a tester plus tard
-class But():
-    def __init__(self):
-        Strategy.__init__(self, "but")
-         
-
-    def compute_strategy(self, state, id_team, id_player):
-        s = SuperState(state,id_team,id_player)
-        if(state.ball.position.distance(s.goal2)<40):
-            if  state.ball.position.distance(state.player_state(id_team,id_player).position) > PLAYER_RADIUS + BALL_RADIUS:
-                if id_team == 1:
-                    return SoccerAction((state.ball.position-s.player),(s.goal2-s.player)/10)
-                else: 
-                    return SoccerAction((state.ball.position-state.player_state(id_team,id_player).position),(Vector2D(0,GAME_HEIGHT/2)-state.player_state(id_team,id_player).position)/10)
