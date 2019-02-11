@@ -24,15 +24,15 @@ def get_team(nb_players):
         team.add("fonceur2",FonceStrategy())
     return team
     
-#if __name__ == " __main__ ":
+if __name__ == " __main__ ":
 # from soccersimulator import Simulation, show_simu
 # Check teams with 1 player and 2 players
-team1 = get_team(2)
-team2 = get_team(2)
+    team1 = get_team(2)
+    team2 = get_team(2)
 # Create a match
-simu = Simulation( team1 , team2 )
+    simu = Simulation( team1 , team2 )
 # Simulate and display the match
-show_simu(simu)
+    show_simu(simu)
         
         
         
