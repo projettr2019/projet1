@@ -8,6 +8,7 @@ Created on Mon Jan 21 17:45:20 2019
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
 from soccersimulator.settings import GAME_WIDTH, GAME_HEIGHT, PLAYER_RADIUS, BALL_RADIUS
 from tools import SuperState
+from random import *
 
  # id_team is 1 or 2
  # id_player starts at 0
@@ -24,10 +25,7 @@ class FonceStrategy(Strategy):
         if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
             return SoccerAction((s.ball-s.player),None)
         else:
-            if id_team == 1: 
-                return SoccerAction((s.ball-s.player),(s.goal)-s.player)
-            else: 
-                return SoccerAction((s.ball-s.player),(s.goal)-s.player)
+            return SoccerAction((s.trajballe-s.player),(s.goal)-s.player)
                 
                 
 
@@ -51,15 +49,14 @@ class DefenceStrategy(Strategy):
         
     def compute_strategy(self, state, id_team, id_player):
       s = SuperState(state,id_team,id_player)  
-      if s.ball.distance(s.player) < 30: 
-          if id_team == 1:
-              return SoccerAction(((s.trajballe)-s.player),((s.goal)-s.player))
-      else:   
-          if id_team == 1:
-              return SoccerAction((s.posdef-s.player),None)
+      if s.ball.distance(s.player) < 35: 
+          if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
+              return SoccerAction((s.ball-s.player),None)
           else:
-              return SoccerAction((s.posdef-s.player),None)
-
+              return SoccerAction(((s.trajballe)-s.player),((s.goal)-s.player)/20)
+      else:   
+          return SoccerAction((s.posdef-s.player),None)
+          
 class Passe(Strategy):   
     def __init__(self):
         Strategy.__init__(self, "passe")
@@ -96,7 +93,32 @@ class But():
                 
                 
                 
-                
+class aleatoire():
+    def _init__(self):
+        Strategy.__init__(self, "tir aleatoire")
+        
+    def compute_strategy(self, state, id_team, id_player):
+        s = SuperState(state,id_team,id_player)
+        
+        return SoccerAction((s.get_random_vec-s.player),(s.goal-s.player)/10)
                 
 
-    
+class Move(object):
+    def __init__ (self,superstate):
+        self.superstate = superstate
+        def move (self,acceleration = None):
+            return SoccerAction(acceleration = acceleration)
+        def to_ball(self):
+            return self.move (self.superstate.ball_dir())
+
+class Shoot (object):
+    def __init__(self,superstate):
+        self.superstate = superstate
+    def shoot(self,direction=None):
+        dist = self.superstate.player.distance(self.superstate.ball)
+        if dist < PLAYER_RADIUS + BALL_RADIUS :
+            return SoccerAction(shoot=direction)
+        else :
+            return SoccerAction()
+    def to_goal (self,strength=None):
+            return self.shoot(self.superstate.goal_dir)  

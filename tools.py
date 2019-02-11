@@ -8,6 +8,7 @@ Created on Mon Jan 28 16:13:14 2019
 """
 from soccersimulator.settings import GAME_WIDTH, GAME_HEIGHT, PLAYER_RADIUS, BALL_RADIUS
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
+from random import *
 
 class SuperState(object):
     def __init__(self,state,id_team,id_player):
@@ -53,6 +54,12 @@ class SuperState(object):
         
     @property
     def trajballe(self): 
-        return self.state.ball.position + 5*(self.state.ball.vitesse)
+        return self.state.ball.position + 3*(self.state.ball.vitesse)
 
 
+"""    @property
+    def get_random_vec(self):
+        x=randint(0,GAME_WIDTH)
+        y=randint(0,GAME_HEIGHT)
+        return Vector2D.create_random(x,y)
+"""
