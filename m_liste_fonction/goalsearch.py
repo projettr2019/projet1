@@ -30,7 +30,7 @@ class GoalSearch(object):
             team2 = SoccerTeam("Team 2")
             team1.add(self.strategy.name,self.strategy)
             team2.add(Strategy().name,Strategy())
-            self.simu = Simulation(team1,team2,max_steps=self.max_step)
+            self.simu = Simulation(team1,team2,max_steps=self.max_steps)
             self.simu.listeners += self
             if show:
                 show_simu(self.simu)
@@ -45,10 +45,14 @@ class GoalSearch(object):
         self.cur_param = next(self.param_grid,None) # Current parameter
         if self.cur_param is None :
             raise ValueError('no parameter given.')
-            self.res = dict() # Dictionary of results
+        self.res = dict() # Dictionary of results
 
     def begin_round(self,team1,team2,state):
-        ball = Vector2D.create_random(low =0,high =1)
+        ball = Vector2D.create_random(low = 0,high = 1)
+        ball.y *= GAME_HEIGHT
+        #de 100 a 120
+        ball.x = (GAME_WIDTH-120)*ball.x
+        ball.x += 90
 # Player and ball postion ( random )
         self.simu.state.states[(1,0)].position = ball.copy() # Player position
         self.simu.state.states[(1,0)].vitesse = Vector2D() # Player accelerati
@@ -64,10 +68,10 @@ class GoalSearch(object):
 # A round ends when there is a goal of if max step is achieved
         if state.goal > 0:
             self.criterion += 1 # Increment criterion
-            self.cpt_trials += 1
+        self.cpt_trials += 1
 # Increment number of trials
-            print(self.cur_param,end = "      " )
-            print(" Crit : {}      Cpt :  {} ".format(self.criterion,self.cpt_trials))
+        print(self.cur_param,end = "      " )
+        print(" Crit : {}      Cpt :  {} ".format(self.criterion,self.cpt_trials))
         if self.cpt_trials >= self.trials:
 # Save the result
             self.res[tuple(self.cur_param.items())] = self.criterion * 1./self.cpt_trials*1.
@@ -88,4 +92,4 @@ class GoalSearch(object):
         return self.res
 
     def get_best(self):
-        return max(self.res, key = self.res.get)
+        return max(self.res, key=self.res.get)

@@ -104,12 +104,12 @@ class aleatoire():
                 
 
 class Move(object):
-    def __init__ (self,superstate):
+    def __init__(self,superstate):
         self.superstate = superstate
-        def move (self,acceleration = None):
-            return SoccerAction(acceleration = acceleration)
-        def to_ball(self):
-            return self.move (self.superstate.ball_dir())
+    def move(self,acceleration = None):
+        return SoccerAction(acceleration = acceleration)
+    def to_ball(self):
+        return self.move(self.superstate.ball_dir)
 
 class Shoot (object):
     def __init__(self,superstate):
@@ -121,4 +121,16 @@ class Shoot (object):
         else :
             return SoccerAction()
     def to_goal (self,strength=None):
-            return self.shoot(self.superstate.goal_dir)  
+            #print(self.superstate.goal_dir*strength)
+            return self.shoot(self.superstate.goal_dir*strength)  
+
+
+class GoTestStrategy(Strategy):
+    def __init__(self, strength = 1):
+        Strategy.__init__(self," Go-getter")
+        self.strength = strength
+    def compute_strategy(self, state, id_team, id_player):
+        s = SuperState(state, id_team, id_player)
+        move = Move(s)
+        shoot = Shoot(s)
+        return move.to_ball() + shoot.to_goal(self.strength)

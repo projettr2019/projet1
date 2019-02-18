@@ -8,7 +8,7 @@ Created on Mon Jan 28 16:13:14 2019
 """
 from soccersimulator.settings import GAME_WIDTH, GAME_HEIGHT, PLAYER_RADIUS, BALL_RADIUS
 from soccersimulator import Strategy, SoccerAction, Vector2D, SoccerTeam, Simulation, show_simu
-from random import *
+
 
 class SuperState(object):
     def __init__(self,state,id_team,id_player):
@@ -39,9 +39,13 @@ class SuperState(object):
         if self.id_team == 1:
             return Vector2D(5,GAME_HEIGHT/2)
         else:
-            return Vector2D(GAME_WIDTH-5,GAME_HEIGHT/2)
-        
-    
+            return Vector2D(GAME_WIDTH-10,GAME_HEIGHT/2)
+    @property  
+    def ball_dir(self):
+        return (self.ball-self.player)
+    @property  
+    def goal_dir(self):
+        return (self.goal-self.ball) #.normalize()
       
     @property 
     def posOpponent(self):
@@ -51,7 +55,9 @@ class SuperState(object):
                 posOpponent.append(self.state.player_state(it,ip).position)
                 
         return posOpponent 
-        
+   
+
+#vas vers la trajectoire de la balle      
     @property
     def trajballe(self): 
         return self.state.ball.position + 3*(self.state.ball.vitesse)
