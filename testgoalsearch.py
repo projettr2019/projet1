@@ -9,8 +9,31 @@ Created on Mon Feb 18 16:11:12 2019
 
 from m_liste_fonction.goalsearch import GoalSearch 
 from m_liste_fonction.ontest import GoTestStrategy
+from m_liste_fonction.tools import SuperState
 
 expe = GoalSearch(strategy = GoTestStrategy(),params={'strength' : [0.1,6]})
 expe.start()
 print(expe.get_res())
 print(expe.get_best())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

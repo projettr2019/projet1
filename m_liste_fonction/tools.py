@@ -16,8 +16,8 @@ class SuperState(object):
         self.id_team = id_team
         self.id_player = id_player
 
-    def __getattr__(self,attr):
-        return getattr(self.state,attr)  
+ #   def __getattr__(self,attr):
+   #     return getattr(self.state,attr)  
     
     @property
     def ball(self):
@@ -35,14 +35,24 @@ class SuperState(object):
             return Vector2D(GAME_WIDTH,GAME_HEIGHT/2)
         
     @property
+    def mygoal(self):
+        if self.id_team == 2:
+             return Vector2D(GAME_WIDTH,GAME_HEIGHT/2)
+        else:
+             return Vector2D(0,GAME_HEIGHT/2)
+        
+    
+    @property
     def posdef(self):
         if self.id_team == 1:
-            return Vector2D(5,GAME_HEIGHT/2)
+            return Vector2D(12,GAME_HEIGHT/2)
         else:
-            return Vector2D(GAME_WIDTH-10,GAME_HEIGHT/2)
+            return Vector2D(GAME_WIDTH-12,GAME_HEIGHT/2)
+        
     @property  
     def ball_dir(self):
         return (self.ball-self.player)
+    
     @property  
     def goal_dir(self):
         return (self.goal-self.ball) #.normalize()
@@ -50,22 +60,46 @@ class SuperState(object):
     @property 
     def posOpponent(self):
         posOpponent= []
-        for it,ip in self.state.player:
-            if it!=self.id_team:
-                posOpponent.append(self.state.player_state(it,ip).position)
-                
+        for id_team,id_player in self.state.players:
+            if id_team != self.id_team:
+                posOpponent.append(self.state.player_state(id_team,id_player).position)
         return posOpponent 
    
-
+#servira probablement jamais     
+    @property
+    def disOpponent(self):
+        distmin = 200
+        for opp in self.posOpponent:
+            res = self.state.players-opp
+            if res < distmin :
+                distmin = res
+        return distmin
+    
+    @property
+    def oppnear(self):             
+        opponent = self.posOpponent
+        return min([(self.player.distance(player),player)for player in opponent])[1]
+    
+    
+    
+    @property 
+    def posFriend(self):
+        posfriend= []
+        for id_team,id_player in self.state.players:
+            if id_team == self.id_team:
+                posfriend.append(self.state.player_state(id_team,id_player).position)
+        return posfriend 
+    #il faut corriger ca marche pas ona enlever du ontest pour les match
+    @property 
+    def friendnear(self):             
+        friend = self.posfriend
+        return min([(self.player.distance(player),player)for player in friend])[1]
+    
+            
 #vas vers la trajectoire de la balle      
     @property
     def trajballe(self): 
         return self.state.ball.position + 3*(self.state.ball.vitesse)
 
 
-"""    @property
-    def get_random_vec(self):
-        x=randint(0,GAME_WIDTH)
-        y=randint(0,GAME_HEIGHT)
-        return Vector2D.create_random(x,y)
-"""
+

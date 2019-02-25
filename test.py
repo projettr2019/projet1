@@ -16,13 +16,16 @@ from m_liste_fonction.goalsearch import GoalSearch
 team1 = SoccerTeam(name="Team 1")
 team2 = SoccerTeam(name="Team 2")
 
+
 # Add players
-team1.add("GoTestStrategy",GoTestStrategy())  # Random strategy
+team1.add("GoTestStrategy",FonceStrategy())  # Random strategy
 # =============================================================================
-#team1.add("DefenceStrategy", DefenceStrategy())   # Static strategy
+team1.add("DefenceStrategy", DefenceStrategy())   # Static strategy
 # =============================================================================
 team2.add("DefenceStrategy",DefenceStrategy())
-#team2.add("FonceStrategy",FonceStrategy())
+team2.add("FonceStrategy",GoTestStrategy())
+
+
 # Create a match
 simu = Simulation(team1, team2)
 

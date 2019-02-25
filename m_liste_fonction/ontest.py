@@ -25,9 +25,17 @@ class FonceStrategy(Strategy):
         if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
             return SoccerAction((s.ball-s.player),None)
         else:
-            return SoccerAction((s.trajballe-s.player),(s.goal)-s.player)
+         #   if s.oppnear.distance(s.player) < 25 :
+          #      return SoccerAction((s.ball-s.player).normalize()*10,((s.player)-s.friendnear))
+            if s.goal.distance(s.player)< 50 :
+                return SoccerAction((s.trajballe-s.player).normalize()*10,((s.goal)-s.player).normalize()*10)
+            else:
+                return SoccerAction((s.ball-s.player).normalize()*10,((s.goal)-s.player).normalize())
                 
-                
+              #
+              #if s.oppnear< 15:
+             #   return SoccerAction((s.ball-s.player).nVector2D(GAME_WIDTH-12,GAME_HEIGHT/2)ormalize()*10,((s.player)-s.goal))
+             #  
 
         
 """class Dribleur(Strategy):
@@ -53,10 +61,16 @@ class DefenceStrategy(Strategy):
           if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
               return SoccerAction((s.ball-s.player),None)
           else:
-              return SoccerAction(((s.trajballe)-s.player),((s.goal)-s.player)/20)
+              return SoccerAction(((s.trajballe)-s.player),((s.goal)-s.player))
       else:   
           return SoccerAction((s.posdef-s.player),None)
           
+      
+        
+        
+        
+        
+        
 class Passe(Strategy):   
     def __init__(self):
         Strategy.__init__(self, "passe")
@@ -93,15 +107,15 @@ class But():
                 
                 
                 
-class aleatoire():
+"""class aleatoire():
     def _init__(self):
         Strategy.__init__(self, "tir aleatoire")
         
-    def compute_strategy(self, state, id_team, id_player):
-        s = SuperState(state,id_team,id_player)
+    def compute_strategy(self, state, id_team, id_player):opponent
+#        s = SuperState(state,id_team,id_player)
         
         return SoccerAction((s.get_random_vec-s.player),(s.goal-s.player)/10)
-                
+  """              
 
 class Move(object):
     def __init__(self,superstate):

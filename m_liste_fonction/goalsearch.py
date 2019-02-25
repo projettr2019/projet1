@@ -64,6 +64,7 @@ class GoalSearch(object):
             setattr(self.strategy,key,value)
 
 
+
     def end_round(self,team1,team2,state):
 # A round ends when there is a goal of if max step is achieved
         if state.goal > 0:
@@ -82,6 +83,8 @@ class GoalSearch(object):
             self.cur_param = next(self.param_grid , None )
             if self.cur_param is None :
                 self.simu.end_match()
+                
+                
 
     def update_round(self,team1,team2,state):
 # Stop the round if it is too long
