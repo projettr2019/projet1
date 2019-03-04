@@ -18,13 +18,13 @@ team2 = SoccerTeam(name="Team 2")
 
 
 # Add players
-team1.add("GoTestStrategy",FonceStrategy())  # Random strategy
+team1.add("fonceur",GoTestStrategy())  # Random strategy
 # =============================================================================
 team1.add("DefenceStrategy", DefenceStrategy())   # Static strategy
 # =============================================================================
 team2.add("DefenceStrategy",DefenceStrategy())
-team2.add("FonceStrategy",GoTestStrategy())
-
+team2.add("FonceStrategy",FonceStrategy())
+#GoTestStrategy
 
 # Create a match
 simu = Simulation(team1, team2)

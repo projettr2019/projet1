@@ -22,15 +22,28 @@ class FonceStrategy(Strategy):
         # id_player starts at 0
             #ne pas tirer n'importe quand
         s = SuperState(state,id_team,id_player)
-        if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
+        if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS: 
+            
+            if id_team==1 : 
+                if s.ball.x < GAME_WIDTH/2:
+                    return SoccerAction(None,None)
+            else:
+                if s.ball.x > GAME_WIDTH/2:
+                 
+                    return SoccerAction(None,None)
+           
             return SoccerAction((s.ball-s.player),None)
+        
         else:
+            
+            #    return SoccerAction(0,0)
+            
          #   if s.oppnear.distance(s.player) < 25 :
           #      return SoccerAction((s.ball-s.player).normalize()*10,((s.player)-s.friendnear))
-            if s.goal.distance(s.player)< 50 :
-                return SoccerAction((s.trajballe-s.player).normalize()*10,((s.goal)-s.player).normalize()*10)
+            if s.goal.distance(s.player)< 55 :
+                return SoccerAction((s.trajballe-s.player),((s.goal)-s.player).normalize()*20)
             else:
-                return SoccerAction((s.ball-s.player).normalize()*10,((s.goal)-s.player).normalize())
+                return SoccerAction((s.trajballe-s.player).normalize()*100,((s.goal)-s.player).normalize()*1.5)
                 
               #
               #if s.oppnear< 15:
@@ -59,16 +72,16 @@ class DefenceStrategy(Strategy):
       s = SuperState(state,id_team,id_player)  
       if s.ball.distance(s.player) < 35: 
           if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
-              return SoccerAction((s.ball-s.player),None)
+              return SoccerAction((s.trajballe-s.player),None)
           else:
-              return SoccerAction(((s.trajballe)-s.player),((s.goal)-s.player))
+              if s.goal.distance(s.player)< 55 :
+                  return SoccerAction((s.trajballe-s.player),((s.goal)-s.player).normalize()*2)
+              else:
+                  return SoccerAction((s.trajballe-s.player),(s.goal-s.player).normalize()*30)
       else:   
           return SoccerAction((s.posdef-s.player),None)
           
-      
-        
-        
-        
+
         
         
 class Passe(Strategy):   
@@ -104,18 +117,7 @@ class But():
                     return SoccerAction((s.ball-s.player),(s.goal-s.player)/10)
                 else: 
                     return SoccerAction(((s.ball-state.player_state(id_team,id_player).position),(s.goal)-state.player_state(id_team,id_player).position)/10)
-                
-                
-                
-"""class aleatoire():
-    def _init__(self):
-        Strategy.__init__(self, "tir aleatoire")
-        
-    def compute_strategy(self, state, id_team, id_player):opponent
-#        s = SuperState(state,id_team,id_player)
-        
-        return SoccerAction((s.get_random_vec-s.player),(s.goal-s.player)/10)
-  """              
+
 
 class Move(object):
     def __init__(self,superstate):
@@ -124,6 +126,7 @@ class Move(object):
         return SoccerAction(acceleration = acceleration)
     def to_ball(self):
         return self.move(self.superstate.ball_dir)
+    
 
 class Shoot (object):
     def __init__(self,superstate):

@@ -13,9 +13,17 @@ def get_team(nb_players):
 
     team = SoccerTeam( name = " baker's Team " )
     if nb_players == 1:
-        team.add("fonceur1",FonceStrategy())
+        team.add("defence1",DefenceStrategy())
     if nb_players == 2:
         team.add("defence1",DefenceStrategy())
         team.add("fonceur2",FonceStrategy())
-        
+    if nb_players == 3:
+        team.add("defence1",DefenceStrategy())
+        team.add("fonceur2",FonceStrategy())
+        team.add("fonceur1",FonceStrategy())
+    if nb_players == 4:
+        team.add("defence1",DefenceStrategy())
+        team.add("fonceur2",FonceStrategy())   
+        team.add("defence1",DefenceStrategy())
+        team.add("fonceur2",FonceStrategy())
     return team

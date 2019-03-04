@@ -41,13 +41,31 @@ class SuperState(object):
         else:
              return Vector2D(0,GAME_HEIGHT/2)
         
-    
+   #pour posdef :y=ax+b (a=diffy/diffx, b = ycages- a*xcage) 
     @property
     def posdef(self):
         if self.id_team == 1:
-            return Vector2D(12,GAME_HEIGHT/2)
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :
+           if (self.ball.y > GAME_HEIGHT/2):
+               return Vector2D(20, (self.ball.y+(GAME_HEIGHT/2))/2)
+           else :
+               return Vector2D(20,((GAME_HEIGHT/2)+self.ball.y)/2)
         else:
-            return Vector2D(GAME_WIDTH-12,GAME_HEIGHT/2)
+            if (self.ball.y > GAME_HEIGHT/2):
+               return Vector2D(GAME_WIDTH-20, (self.ball.y+(GAME_HEIGHT/2))/2)
+            else :
+               return Vector2D(GAME_WIDTH-20,((GAME_HEIGHT/2)+self.ball.y)/2)
+           
+    @property
+    def posatt(self):
+        if self.id_team == 1:
+           self.player.x > GAME_WIDTH/2
+           return Vector2D(GAME_HEIGHT/2,GAME_WIDTH/2)
+        else : 
+            self.player.x < GAME_WIDTH/2
+            return SoccerAction(None,None)
+            
+            
         
     @property  
     def ball_dir(self):
@@ -99,7 +117,11 @@ class SuperState(object):
 #vas vers la trajectoire de la balle      
     @property
     def trajballe(self): 
-        return self.state.ball.position + 3*(self.state.ball.vitesse)
+        return self.state.ball.position +0.28*((self.state.ball.position).distance(self.state.player_state(self.id_team,self.id_player).position))*(self.state.ball.vitesse)  #distance*x (a la place de 3)
 
+#pour posdef :y=ax+b (a=diffy/diffx, b = ycages- a*xcage)
 
-
+    @property
+    def milieu(self):
+        if self.id_team == 1:
+            return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2)
