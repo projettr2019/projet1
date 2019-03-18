@@ -26,12 +26,18 @@ class FonceStrategy(Strategy):
             
             if id_team==1 : 
                 if s.ball.x < GAME_WIDTH/2:
-                    return SoccerAction(None,None)
+                    if s.player.distance(s.ball) < 15 :
+                        if (s.player).distance(s.milieu) < 10 :   
+                            return SoccerAction(s.trajballe- s.player,None)                      
+                    else:
+                        return SoccerAction(s.posatt - s.player,None) 
             else:
-                if s.ball.x > GAME_WIDTH/2:
-                 
-                    return SoccerAction(None,None)
-           
+                 if s.ball.x > GAME_WIDTH/2:
+                     if s.player.distance(s.ball) < 15 :
+                        if (s.player).distance(s.milieu) < 10 :
+                            return SoccerAction(s.trajballe - s.player,None)
+                     else :
+                        return SoccerAction(s.posatt - s.player,None) 
             return SoccerAction((s.ball-s.player),None)
         
         else:
@@ -41,7 +47,7 @@ class FonceStrategy(Strategy):
          #   if s.oppnear.distance(s.player) < 25 :
           #      return SoccerAction((s.ball-s.player).normalize()*10,((s.player)-s.friendnear))
             if s.goal.distance(s.player)< 55 :
-                return SoccerAction((s.trajballe-s.player),((s.goal)-s.player).normalize()*20)
+                return SoccerAction((s.trajballe-s.player),((s.goal)-s.player).normalize()*10)
             else:
                 return SoccerAction((s.trajballe-s.player).normalize()*100,((s.goal)-s.player).normalize()*1.5)
                 
@@ -151,3 +157,24 @@ class GoTestStrategy(Strategy):
         move = Move(s)
         shoot = Shoot(s)
         return move.to_ball() + shoot.to_goal(self.strength)
+    
+    
+    
+    
+    
+class Cage(Strategy):
+    def __init__(self):
+        Strategy.__init__(self, "defence")
+        
+    def compute_strategy(self, state, id_team, id_player):
+         s = SuperState(state,id_team,id_player)
+         if id_team ==1:
+         
+             if id.player == 1:
+                 return SoccerAction((s.posdef1-s.player),(s.goal-s.player).normalize()*30)
+             if id.player == 2:
+                 return SoccerAction((s.posdef2-s.player),(s.goal-s.player).normalize()*30)
+             if id.player == 3:
+                 return SoccerAction((s.posdef3-s.player),(s.goal-s.player).normalize()*30)
+             if id.player == 4:
+                 return SoccerAction((s.posdef4-s.player),(s.goal-s.player).normalize()*30)

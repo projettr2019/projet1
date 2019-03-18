@@ -23,7 +23,7 @@ def get_team(nb_players):
         team.add("fonceur1",FonceStrategy())
     if nb_players == 4:
         team.add("defence1",DefenceStrategy())
-        team.add("fonceur2",FonceStrategy())   
-        team.add("defence1",DefenceStrategy())
+        team.add("fonceur1",FonceStrategy())   
+        team.add("defence2",DefenceStrategy())
         team.add("fonceur2",FonceStrategy())
     return team

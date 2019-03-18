@@ -45,27 +45,64 @@ class SuperState(object):
     @property
     def posdef(self):
         if self.id_team == 1:
-           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :
-           if (self.ball.y > GAME_HEIGHT/2):
-               return Vector2D(20, (self.ball.y+(GAME_HEIGHT/2))/2)
-           else :
-               return Vector2D(20,((GAME_HEIGHT/2)+self.ball.y)/2)
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(20, (self.ball.y+(GAME_HEIGHT/2))/2)
+
         else:
-            if (self.ball.y > GAME_HEIGHT/2):
-               return Vector2D(GAME_WIDTH-20, (self.ball.y+(GAME_HEIGHT/2))/2)
-            else :
-               return Vector2D(GAME_WIDTH-20,((GAME_HEIGHT/2)+self.ball.y)/2)
+            return Vector2D(GAME_WIDTH-20, (self.ball.y+(GAME_HEIGHT/2))/2)
+        
+#-----------------------------------------------------------------------------------------------------
+            
+        
+    @property
+    def posdef1(self):
+        if self.id_team == 1:
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(1, ((GAME_HEIGHT/2)-2))
+
+        else:
+            return Vector2D(GAME_WIDTH-1, (GAME_HEIGHT/2)-2)
            
     @property
-    def posatt(self):
+    def posdef2(self):
         if self.id_team == 1:
-           self.player.x > GAME_WIDTH/2
-           return Vector2D(GAME_HEIGHT/2,GAME_WIDTH/2)
-        else : 
-            self.player.x < GAME_WIDTH/2
-            return SoccerAction(None,None)
-            
-            
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(1, (GAME_HEIGHT/2 -1))
+
+        else:
+            return Vector2D(GAME_WIDTH-20, (self.ball.y+(GAME_HEIGHT/2)/2))
+           
+    @property
+    def posdef3(self):
+        if self.id_team == 1:
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(1, (GAME_HEIGHT/2 )+1)
+
+        else:
+            return Vector2D(GAME_WIDTH-20, (self.ball.y+(GAME_HEIGHT/2))/2)
+           
+    @property
+    def posdef4(self):
+        if self.id_team == 1:
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(1, (GAME_HEIGHT/2)+2)
+
+        else:
+            return Vector2D(GAME_WIDTH-20, (self.ball.y+(GAME_HEIGHT/2))/2)
+           
+
+           
+ #-------------------------------------------------------------------------------------------------------
+        
+        
+    
+    @property
+    def posatt(self):      
+        if self.id_team == 1:
+            return Vector2D(GAME_WIDTH/2 + 1, (self.ball.y))
+        else:
+            return Vector2D(GAME_WIDTH/2 -1, (self.ball.y))
+           
         
     @property  
     def ball_dir(self):
@@ -123,5 +160,4 @@ class SuperState(object):
 
     @property
     def milieu(self):
-        if self.id_team == 1:
-            return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2)
+        return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2)
