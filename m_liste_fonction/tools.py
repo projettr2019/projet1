@@ -51,6 +51,51 @@ class SuperState(object):
         else:
             return Vector2D(GAME_WIDTH-20, (self.ball.y+(GAME_HEIGHT/2))/2)
         
+        
+        
+    @property
+    def posdef5(self):
+        if self.id_team == 1:
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(15, ((self.ball.y+(GAME_HEIGHT/2))/2 ))
+
+        else:
+            return Vector2D(GAME_WIDTH-15, (self.ball.y+(GAME_HEIGHT/2))/2 )
+        
+        
+        
+    @property
+    def posdef6(self):
+        if self.id_team == 1:
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(30, ((self.ball.y+(GAME_HEIGHT/2))/2))
+
+        else:
+            return Vector2D(GAME_WIDTH-30, ((self.ball.y+(GAME_HEIGHT/2))/2))
+        
+        
+    @property
+    def top(self):
+        if self.id_team == 1:
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(GAME_WIDTH/2, GAME_HEIGHT)
+
+        else:
+            return Vector2D(GAME_WIDTH/2, GAME_HEIGHT)
+        
+        
+        
+    @property
+    def bottom(self):
+        if self.id_team == 1:
+           #if self.state.goal.distance(self.state.player) > GAME_WIDTH/2 :          
+            return Vector2D(GAME_WIDTH/2, 0)
+
+        else:
+            return Vector2D(GAME_WIDTH/2, 0)
+        
+        
+        
 #-----------------------------------------------------------------------------------------------------
             
         
@@ -61,7 +106,7 @@ class SuperState(object):
             return Vector2D(7, ((GAME_HEIGHT/2)-2))
 
         else:
-            return Vector2D(GAME_WIDTH--7, (GAME_HEIGHT/2)-2)
+            return Vector2D(GAME_WIDTH-7, (GAME_HEIGHT/2)-2)
            
     @property
     def posdef2(self):
@@ -95,15 +140,32 @@ class SuperState(object):
  #-------------------------------------------------------------------------------------------------------
         
         
-    
+#  posatt ---------------------------------------------------------------------------------------    
     @property
     def posatt(self):      
         if self.id_team == 1:
             return Vector2D(GAME_WIDTH/2 + 1, (self.ball.y))
         else:
             return Vector2D(GAME_WIDTH/2 -1, (self.ball.y))
-           
         
+        
+        
+    @property
+    def posatt2(self):      
+        if self.id_team == 1:
+            return Vector2D(GAME_WIDTH/2 + 1, (self.ball.y))
+        else:
+            return Vector2D(GAME_WIDTH/2 -1, (self.ball.y))
+        
+        
+    @property
+    def posatt3(self):      
+        if self.id_team == 1:
+            return Vector2D(GAME_WIDTH/2 + 1, (self.ball.y) +5)
+        else:
+            return Vector2D(GAME_WIDTH/2 -1, (self.ball.y )+5)
+           
+#----------------------------------------------------------------------------------------------        
     @property  
     def ball_dir(self):
         return (self.ball-self.player)
@@ -161,3 +223,5 @@ class SuperState(object):
     @property
     def milieu(self):
         return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2)
+#-------------------------------------------------------------------------------------------------------------------------------------------
+ 

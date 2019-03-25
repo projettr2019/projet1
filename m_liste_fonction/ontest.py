@@ -57,20 +57,106 @@ class FonceStrategy(Strategy):
              #  
 
         
-"""class Dribleur(Strategy):
+
+class FonceStrategy2(Strategy):
     def __init__(self):
-        Strategy.__init__(self, "drible")
+        Strategy.__init__(self, "Fonce")
+
+    def compute_strategy(self, state, id_team, id_player):
+        
+        s = SuperState(state,id_team,id_player)
+        # s'assure que le joueur n'est pas a distance de frappe de la balle
+        if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS: 
+            
+            if id_team==1 : 
+                if s.ball.x < GAME_WIDTH/2:  #ce bouge
+                    if s.player.distance(s.ball) < 15 :
+                        if (s.player).distance(s.milieu) < 10 :   
+                            return SoccerAction(s.trajballe- s.player,None)                      
+                    else:
+                        return SoccerAction(s.posatt - s.player,None) 
+            else: # id team 2:
+                 if s.ball.x > GAME_WIDTH/2:
+                     if s.player.distance(s.ball) < 15 :
+                        if (s.player).distance(s.milieu) < 10 :
+                            return SoccerAction(s.trajballe - s.player,None)
+                     else :
+                        return SoccerAction(s.posatt - s.player,None) 
+            return SoccerAction((s.ball-s.player),None)
+        
+        else:
+            if s.goal.distance(s.player)< 55 :
+                return SoccerAction((s.trajballe-s.player),((s.goal)-s.player).normalize()*10)
+            else:
+                return SoccerAction((s.trajballe-s.player).normalize()*100,((s.goal)-s.player).normalize()*1.5)
+                
+
+        
+
+class FonceStrategy3(Strategy):
+    def __init__(self):
+        Strategy.__init__(self, "Fonce")
+
+    def compute_strategy(self, state, id_team, id_player):
+        
+        s = SuperState(state,id_team,id_player)
+        # s'assure que le joueur n'est pas a distance de frappe de la balle
+        if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS: 
+            
+            if id_team==1 : 
+                if s.ball.x < GAME_WIDTH/2:  #ce bouge
+                    if s.player.distance(s.ball) < 15 :
+                        if (s.player).distance(s.milieu) < 10 :   
+                            return SoccerAction(s.trajballe- s.player,None)                      
+                    else:
+                        return SoccerAction(s.posatt3 - s.player,None) 
+            else: # id team 2:
+                 if s.ball.x > GAME_WIDTH/2:
+                     if s.player.distance(s.ball) < 15 :
+                        if (s.player).distance(s.milieu) < 10 :
+                            return SoccerAction(s.trajballe - s.player,None)
+                     else :
+                        return SoccerAction(s.posatt3 - s.player,None) 
+            return SoccerAction((s.ball-s.player),None)
+        
+        else:
+            if s.goal.distance(s.player)< 55 :
+                return SoccerAction((s.trajballe-s.player),((s.goal)-s.player).normalize()*10)
+            else:
+                return SoccerAction((s.trajballe-s.player).normalize()*100,((s.goal)-s.player).normalize()*1.5)
+                
+
+
+
+  
+class DefenceStrategy(Strategy):
+    def __init__(self):
+        Strategy.__init__(self, "defence")
         
     def compute_strategy(self, state, id_team, id_player):
-          s = SuperState(state,id_team,id_player)
-          if s.posOpposant-s.player<40:
-             return SoccerAction((Vector2D(0,0)-s.player),None)
-          else:                 
-             return SoccerAction((s.goal-s.player),None)
-             
- """       
+      s = SuperState(state,id_team,id_player) 
+ 
+   #if s.player.x < GAME_WIDTH/2 :       
+      if s.ball.distance(s.player) < 35: 
+          if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
+             # if s.player.x  < 50 :    
+              return SoccerAction((s.trajballe-s.player),None)
+          else:
+              if s.goal.distance(s.player)< 55 :
+                  return SoccerAction((s.trajballe-s.player),((s.goal)-s.player).normalize()*20)
+              else:
+                  if s.ball.y > GAME_WIDTH/2 :
+                      return SoccerAction((s.trajballe-s.player),(s.top-s.player).normalize()*30)
+                  else:
+                      return SoccerAction((s.trajballe-s.player),(s.bottom-s.player).normalize()*30)
+      else:   
+          return SoccerAction((s.posdef6-s.player),None)
+          
+
         
-class DefenceStrategy(Strategy):
+
+        
+class DefenceStrategy2(Strategy):
     def __init__(self):
         Strategy.__init__(self, "defence")
         
@@ -83,11 +169,17 @@ class DefenceStrategy(Strategy):
               if s.goal.distance(s.player)< 55 :
                   return SoccerAction((s.trajballe-s.player),((s.goal)-s.player).normalize()*2)
               else:
-                  return SoccerAction((s.trajballe-s.player),(s.goal-s.player).normalize()*30)
+                  if s.ball.y > GAME_WIDTH/2 :
+                      return SoccerAction((s.trajballe-s.player),(s.goal-s.player).normalize()*30)
+                  else:
+                      return SoccerAction((s.trajballe-s.player),(s.goal-s.player).normalize()*30)
       else:   
-          return SoccerAction((s.posdef-s.player),None)
-          
-
+          return SoccerAction((s.posdef5-s.player),None)        
+        
+        
+        
+        
+        
         
         
 class Passe(Strategy):   
@@ -172,13 +264,13 @@ class Cage(Strategy):
             if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
                 return SoccerAction((s.trajballe-s.player),(s.goal-s.player).normalize()*30)
         else:         
+            if (id_player == 0):
+                return SoccerAction((s.posdef1-s.player),None)
             if (id_player == 1):
-                return SoccerAction((s.posdef1-s.player),(s.goal-s.player).normalize()*30)
+                return SoccerAction((s.posdef2-s.player),None)
             if (id_player == 2):
-                return SoccerAction((s.posdef2-s.player),(s.goal-s.player).normalize()*30)
+                return SoccerAction((s.posdef3-s.player),None)
             if (id_player == 3):
-                return SoccerAction((s.posdef3-s.player),(s.goal-s.player).normalize()*30)
-            if (id_player == 4):
-                return SoccerAction((s.posdef4-s.player),(s.goal-s.player).normalize()*30)
+                return SoccerAction((s.posdef4-s.player),None)
             
             #il faut s'assurer que seulement le jouer le plus pres de la balle tire
