@@ -18,11 +18,11 @@ team2 = SoccerTeam(name="Team 2")
 
 
 # Add players
-team1.add("fonceur",Cage())  # Random strategy
 # =============================================================================
-team1.add("DefenceStrategy", Cage())
-team1.add("DefenceStrategy", Cage())
-team1.add("DefenceStrategy", Cage())   # Static strategy
+team1.add("Cage1",Cage())  # Random strategy
+team1.add("Cage2",Cage())
+team1.add("Cage3",Cage())
+#team1.add("Cage4",Cage())   # Static strategy
 # =============================================================================
 team2.add("DefenceStrategy",DefenceStrategy())
 team2.add("FonceStrategy",FonceStrategy())

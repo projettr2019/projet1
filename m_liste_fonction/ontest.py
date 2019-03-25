@@ -167,14 +167,18 @@ class Cage(Strategy):
         Strategy.__init__(self, "defence")
         
     def compute_strategy(self, state, id_team, id_player):
-         s = SuperState(state,id_team,id_player)
-         if id_team ==1:
-         
-             if id.player == 1:
-                 return SoccerAction((s.posdef1-s.player),(s.goal-s.player).normalize()*30)
-             if id.player == 2:
-                 return SoccerAction((s.posdef2-s.player),(s.goal-s.player).normalize()*30)
-             if id.player == 3:
-                 return SoccerAction((s.posdef3-s.player),(s.goal-s.player).normalize()*30)
-             if id.player == 4:
-                 return SoccerAction((s.posdef4-s.player),(s.goal-s.player).normalize()*30)
+        s = SuperState(state,id_team,id_player)
+        if s.ball.distance(s.player) < 15:
+            if s.ball.distance(s.player) > PLAYER_RADIUS + BALL_RADIUS:
+                return SoccerAction((s.trajballe-s.player),(s.goal-s.player).normalize()*30)
+        else:         
+            if (id_player == 1):
+                return SoccerAction((s.posdef1-s.player),(s.goal-s.player).normalize()*30)
+            if (id_player == 2):
+                return SoccerAction((s.posdef2-s.player),(s.goal-s.player).normalize()*30)
+            if (id_player == 3):
+                return SoccerAction((s.posdef3-s.player),(s.goal-s.player).normalize()*30)
+            if (id_player == 4):
+                return SoccerAction((s.posdef4-s.player),(s.goal-s.player).normalize()*30)
+            
+            #il faut s'assurer que seulement le jouer le plus pres de la balle tire
